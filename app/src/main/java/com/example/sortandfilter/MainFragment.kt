@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,12 @@ class MainFragment : Fragment() {
         viewModel.allItems.observe(viewLifecycleOwner) { list ->
             allItemsAdapter.submitList(list)
         }
+        // allItemsを flowのまま使うとき
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.allItems.collect { list ->
+//                allItemsAdapter.submitList(list)
+//            }
+//        }
 
         binding.btnAddItems.setOnClickListener {
             viewModel.addItems()
