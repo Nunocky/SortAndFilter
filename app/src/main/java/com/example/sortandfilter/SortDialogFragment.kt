@@ -2,8 +2,9 @@ package com.example.sortandfilter
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import com.example.sortandfilter.databinding.FragmentSortDialogBinding
@@ -28,6 +29,10 @@ class SortDialogFragment : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.btnOk.setOnClickListener {
+            setFragmentResult(
+                "sort",
+                bundleOf("message" to "result from sort")
+            )
             dismiss()
         }
 
