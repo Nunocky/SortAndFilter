@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val itemRepository: ItemRepository,
-    private val preference: PreferenceRepository
+    preference: PreferenceRepository
 ) : ViewModel() {
 
     val sortParam = MutableStateFlow(preference.sortParam)
@@ -23,9 +23,8 @@ class MainViewModel @Inject constructor(
 
     private val _allItems = itemRepository.findAll()
 
-    val allItems = combine(
-        _allItems, sortParam, filterText
-    ) { items, sortParam, filterText ->
+    // _allItems, sortParam, filterParamの変化を受けてテキストフィルタとソートを実行する
+    val allItems = combine(_allItems, sortParam, filterText) { items, sortParam, filterText ->
         if (sortParam.field == 0) {
             if (sortParam.order == 0) {
                 items.sortedBy { it.id }

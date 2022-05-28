@@ -7,27 +7,20 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.navArgs
 import com.example.sortandfilter.databinding.FragmentFilterDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FilterDialogViewModel @Inject constructor() : ViewModel() {
-
-}
+class FilterDialogViewModel @Inject constructor() : ViewModel()
 
 @AndroidEntryPoint
 class FilterDialogFragment : DialogFragment() {
+    private val args: FilterDialogFragmentArgs by navArgs()
     private val viewModel: FilterDialogViewModel by viewModels()
     private lateinit var binding: FragmentFilterDialogBinding
-
-    override fun onResume() {
-        super.onResume()
-
-        // TODO 呼び出し時の値をセットする (safe args使用)
-        binding.radioButton1.isChecked = true
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
@@ -60,6 +53,12 @@ class FilterDialogFragment : DialogFragment() {
 
         binding.btnCancel.setOnClickListener {
             dismiss()
+        }
+
+        when (args.text) {
+            "ABC" -> binding.radioButton2.isChecked = true
+            "XYZ" -> binding.radioButton3.isChecked = true
+            else -> binding.radioButton1.isChecked = true
         }
 
         dialog.setContentView(binding.root)

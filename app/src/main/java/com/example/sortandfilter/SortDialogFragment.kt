@@ -7,28 +7,20 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.navArgs
 import com.example.sortandfilter.databinding.FragmentSortDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SortDialogViewModel @Inject constructor() : ViewModel() {
-
-}
+class SortDialogViewModel @Inject constructor() : ViewModel()
 
 @AndroidEntryPoint
 class SortDialogFragment : DialogFragment() {
+    private val args: SortDialogFragmentArgs by navArgs()
     private val viewModel: SortDialogViewModel by viewModels()
     private lateinit var binding: FragmentSortDialogBinding
-
-    override fun onResume() {
-        super.onResume()
-
-        // TODO 呼び出し時の値をセットする (safe args使用)
-        binding.radioButton1.isChecked = true
-        binding.radioButton3.isChecked = true
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
@@ -52,6 +44,18 @@ class SortDialogFragment : DialogFragment() {
 
         binding.btnCancel.setOnClickListener {
             dismiss()
+        }
+
+        if (args.param.field == 0) {
+            binding.radioButton1.isChecked = true
+        } else {
+            binding.radioButton2.isChecked = true
+        }
+
+        if (args.param.order == 0) {
+            binding.radioButton3.isChecked = true
+        } else {
+            binding.radioButton4.isChecked = true
         }
 
         dialog.setContentView(binding.root)

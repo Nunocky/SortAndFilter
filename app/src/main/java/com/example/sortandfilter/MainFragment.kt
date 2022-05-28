@@ -45,11 +45,15 @@ class MainFragment : Fragment() {
         }
 
         binding.btnSort.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_sortDialogFragment)
+            val action =
+                MainFragmentDirections.actionMainFragmentToSortDialogFragment(preference.sortParam)
+            findNavController().navigate(action)
         }
 
         binding.btnFilter.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_filterDialogFragment)
+            val action =
+                MainFragmentDirections.actionMainFragmentToFilterDialogFragment(preference.filterText)
+            findNavController().navigate(action)
         }
 
         return binding.root
