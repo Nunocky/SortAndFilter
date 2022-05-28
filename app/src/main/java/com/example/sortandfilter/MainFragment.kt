@@ -1,7 +1,6 @@
 package com.example.sortandfilter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sortandfilter.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -20,6 +20,9 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     private val allItemsAdapter = ItemListAdapter()
+
+    @Inject
+    lateinit var preference: PreferenceRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,25 +58,18 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ソートダイアログの結果を受信
-        setFragmentResultListener("sort") { requestKey, bundle ->
-            Log.d(TAG, requestKey)
-
+        // ソートダイアログの結果を受信 -> ViewModelへ渡す
+        setFragmentResultListener("sort") { _, bundle ->
             val sortParam = bundle["sortParam"] as SortParam? ?: SortParam()
+            preference.sortParam = sortParam
             viewModel.sortParam.value = sortParam
         }
 
-        // フィルタダイアログの結果を受信
-        setFragmentResultListener("filter") { requestKey, bundle ->
-            Log.d(TAG, requestKey)
+        // フィルタダイアログの結果を受信 -> ViewModelへ渡す
+        setFragmentResultListener("filter") { _, bundle ->
             val filterText = bundle["filterText"] as String? ?: ""
-            Log.d(TAG, "filterText = $filterText")
-
+            preference.filterText = filterText
             viewModel.filterText.value = filterText
         }
-    }
-
-    companion object {
-        private const val TAG = "MainFragment"
     }
 }

@@ -14,11 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val preference: PreferenceRepository
 ) : ViewModel() {
 
-    val sortParam = MutableStateFlow(SortParam())
-    val filterText = MutableStateFlow("")
+    val sortParam = MutableStateFlow(preference.sortParam)
+    val filterText = MutableStateFlow(preference.filterText)
 
     private val _allItems = itemRepository.findAll()
 
