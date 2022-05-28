@@ -1,4 +1,4 @@
-package com.example.sortandfilter
+package com.example.sortandfilter.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

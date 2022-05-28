@@ -8,6 +8,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.navArgs
+import com.example.sortandfilter.data.SortParam
 import com.example.sortandfilter.databinding.FragmentSortDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel

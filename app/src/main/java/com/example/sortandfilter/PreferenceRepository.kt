@@ -3,6 +3,7 @@ package com.example.sortandfilter
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.example.sortandfilter.data.SortParam
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton

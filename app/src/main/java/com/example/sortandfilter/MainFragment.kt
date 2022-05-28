@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sortandfilter.data.SortParam
 import com.example.sortandfilter.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
