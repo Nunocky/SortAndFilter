@@ -10,7 +10,7 @@
         tools:context=".SortDialogFragment">
 
         <Button
-            android:id="@+id/btnCancal"
+            android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -29,8 +29,8 @@
             android:text="@android:string/ok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnCancal"
-            app:layout_constraintTop_toTopOf="@+id/btnCancal" />
+            app:layout_constraintStart_toEndOf="@+id/btnCancel"
+            app:layout_constraintTop_toTopOf="@+id/btnCancel" />
 
         <TextView
             android:id="@+id/textView2"
