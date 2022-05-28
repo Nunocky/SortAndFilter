@@ -7,16 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sortandfilter.data.SortParam
 import com.example.sortandfilter.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +41,7 @@ class MainFragment : Fragment() {
             allItemsAdapter.submitList(list)
         }
         // allItemsを flowのまま使うとき
+        // https://zenn.dev/verno3632/articles/4a98da03dcdbaa
 //        lifecycleScope.launch {
 //            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 //                viewModel.allItems.collect { newList ->
