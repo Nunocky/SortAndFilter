@@ -9,18 +9,49 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.example.sortandfilter.database.Item
+import com.example.sortandfilter.database.ItemRepository
 import com.example.sortandfilter.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val itemRepository: ItemRepository
+) : ViewModel() {
     val sortCondition = MutableStateFlow(0)
     val sortOrder = MutableStateFlow(0)
     val filterText = MutableStateFlow("")
+
+    /**
+     * Roomにデータを 10個追加する
+     */
+    fun addItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repeat(10) {
+                val item = Item(
+                    0, texts.random()
+                )
+                itemRepository.insert(item)
+            }
+        }
+    }
+
+    companion object {
+        private val texts = listOf(
+            "ABC",
+            "ABC DEF",
+            "ABC XYZ",
+            "XYZ",
+            "UVW XYZ "
+        )
+    }
 }
 
 @AndroidEntryPoint
@@ -37,7 +68,7 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.btnAddItems.setOnClickListener {
-
+            viewModel.addItems()
         }
 
         binding.btnSort.setOnClickListener {
@@ -54,6 +85,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ソートダイアログの結果を受信
         setFragmentResultListener("sort") { requestKey, bundle ->
             Log.d(TAG, requestKey)
 
@@ -66,6 +98,7 @@ class MainFragment : Fragment() {
             viewModel.sortOrder.value = sortOrder
         }
 
+        // フィルタダイアログの結果を受信
         setFragmentResultListener("filter") { requestKey, bundle ->
             Log.d(TAG, requestKey)
             val filterText = bundle["filterText"] as String? ?: ""
