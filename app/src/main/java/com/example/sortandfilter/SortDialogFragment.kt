@@ -37,14 +37,14 @@ class SortDialogFragment : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.btnOk.setOnClickListener {
-            val sortBy = if (binding.radioButton1.isChecked) 0 else 1
+            val sortField = if (binding.radioButton1.isChecked) 0 else 1
             val sortOrder = if (binding.radioButton3.isChecked) 0 else 1
 
+            val sortParam = SortParam(sortField, sortOrder)
             setFragmentResult(
                 "sort",
                 bundleOf(
-                    "sortBy" to sortBy,
-                    "sortOrder" to sortOrder
+                    "sortParam" to sortParam
                 )
             )
             dismiss()

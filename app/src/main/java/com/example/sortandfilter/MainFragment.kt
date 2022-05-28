@@ -59,13 +59,8 @@ class MainFragment : Fragment() {
         setFragmentResultListener("sort") { requestKey, bundle ->
             Log.d(TAG, requestKey)
 
-            val sortBy = bundle["sortBy"] as Int? ?: 0
-            val sortOrder = bundle["sortOrder"] as Int? ?: 0
-            Log.d(TAG, "sortBy = $sortBy")
-            Log.d(TAG, "sortOrder = $sortOrder")
-
-            viewModel.sortCondition.value = sortBy
-            viewModel.sortOrder.value = sortOrder
+            val sortParam = bundle["sortParam"] as SortParam? ?: SortParam()
+            viewModel.sortParam.value = sortParam
         }
 
         // フィルタダイアログの結果を受信

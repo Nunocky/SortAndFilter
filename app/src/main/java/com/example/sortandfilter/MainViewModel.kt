@@ -8,6 +8,7 @@ import com.example.sortandfilter.database.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,13 +16,31 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val itemRepository: ItemRepository
 ) : ViewModel() {
+
+    val sortParam = MutableStateFlow(SortParam())
+    val filterText = MutableStateFlow("")
+
     private val _allItems = itemRepository.findAll()
 
-    val allItems = _allItems.asLiveData()
-
-    val sortCondition = MutableStateFlow(0)
-    val sortOrder = MutableStateFlow(0)
-    val filterText = MutableStateFlow("")
+    val allItems = combine(
+        _allItems, sortParam, filterText
+    ) { items, sortParam, filterText ->
+        if (sortParam.field == 0) {
+            if (sortParam.order == 0) {
+                items.sortedBy { it.id }
+            } else {
+                items.sortedBy { it.id }.reversed()
+            }
+        } else {
+            if (sortParam.order == 0) {
+                items.sortedBy { it.title }
+            } else {
+                items.sortedBy { it.title }.reversed()
+            }
+        }.filter {
+            it.title.contains(filterText)
+        }
+    }.asLiveData()
 
     /**
      * Roomにデータを 10個追加する
