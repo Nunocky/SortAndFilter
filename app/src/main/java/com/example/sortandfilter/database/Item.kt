@@ -20,7 +20,10 @@ interface ItemDAO {
     fun insert(item: Item)
 
     @Query("select * from items")
-    fun findAll(): Flow<List<Item>>
+    fun findAll(): List<Item>
+
+    @Query("select * from items")
+    fun findAllAsFlow(): Flow<List<Item>>
 
     // TODO update, delete, .etc.
 }
@@ -29,6 +32,7 @@ interface ItemDAO {
 class ItemRepository @Inject constructor(private val dao: ItemDAO) {
     fun insert(item: Item) = dao.insert(item)
     fun findAll() = dao.findAll()
+    fun findAllAsFlow() = dao.findAllAsFlow()
 }
 
 
