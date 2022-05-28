@@ -2,7 +2,6 @@ package com.example.sortandfilter
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -23,6 +22,13 @@ class FilterDialogFragment : DialogFragment() {
     private val viewModel: FilterDialogViewModel by viewModels()
     private lateinit var binding: FragmentFilterDialogBinding
 
+    override fun onResume() {
+        super.onResume()
+
+        // TODO 呼び出し時の値をセットする (safe args使用)
+        binding.radioButton1.isChecked = true
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
         binding = FragmentFilterDialogBinding.inflate(requireActivity().layoutInflater)
@@ -30,9 +36,24 @@ class FilterDialogFragment : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.btnOk.setOnClickListener {
+
+            val filterText = when {
+                binding.radioButton2.isChecked -> {
+                    "ABC"
+                }
+                binding.radioButton3.isChecked -> {
+                    "XYZ"
+                }
+                else -> {
+                    ""
+                }
+            }
+
             setFragmentResult(
                 "filter",
-                bundleOf("message" to "result from filter")
+                bundleOf(
+                    "filterText" to filterText
+                )
             )
             dismiss()
         }

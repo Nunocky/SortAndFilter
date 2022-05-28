@@ -22,6 +22,14 @@ class SortDialogFragment : DialogFragment() {
     private val viewModel: SortDialogViewModel by viewModels()
     private lateinit var binding: FragmentSortDialogBinding
 
+    override fun onResume() {
+        super.onResume()
+
+        // TODO 呼び出し時の値をセットする (safe args使用)
+        binding.radioButton1.isChecked = true
+        binding.radioButton3.isChecked = true
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
         binding = FragmentSortDialogBinding.inflate(requireActivity().layoutInflater)
@@ -29,9 +37,15 @@ class SortDialogFragment : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.btnOk.setOnClickListener {
+            val sortBy = if (binding.radioButton1.isChecked) 0 else 1
+            val sortOrder = if (binding.radioButton3.isChecked) 0 else 1
+
             setFragmentResult(
                 "sort",
-                bundleOf("message" to "result from sort")
+                bundleOf(
+                    "sortBy" to sortBy,
+                    "sortOrder" to sortOrder
+                )
             )
             dismiss()
         }

@@ -56,17 +56,22 @@ class MainFragment : Fragment() {
 
         setFragmentResultListener("sort") { requestKey, bundle ->
             Log.d(TAG, requestKey)
-            Log.d(TAG, bundle["message"] as String? ?: "")
 
-            viewModel.sortCondition.value = 0
-            viewModel.sortOrder.value = 0
+            val sortBy = bundle["sortBy"] as Int? ?: 0
+            val sortOrder = bundle["sortOrder"] as Int? ?: 0
+            Log.d(TAG, "sortBy = $sortBy")
+            Log.d(TAG, "sortOrder = $sortOrder")
+
+            viewModel.sortCondition.value = sortBy
+            viewModel.sortOrder.value = sortOrder
         }
 
         setFragmentResultListener("filter") { requestKey, bundle ->
             Log.d(TAG, requestKey)
-            Log.d(TAG, bundle["message"] as String? ?: "")
+            val filterText = bundle["filterText"] as String? ?: ""
+            Log.d(TAG, "filterText = $filterText")
 
-            viewModel.filterText.value = ""
+            viewModel.filterText.value = filterText
         }
     }
 
