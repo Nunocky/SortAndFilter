@@ -46,11 +46,15 @@ class MainViewModel @Inject constructor(
     val allItems = combine(_allItems, sortParam, filterText) { allItems, sortParam, filterText ->
         //val items = allItems
         // MEMO combineの中で Roomにアクセスするには withContextを使う必要がある
-        val items = withContext(Dispatchers.IO) {
+        var items = withContext(Dispatchers.IO) {
             itemRepository.findAll()
         }
 
-        if (sortParam.field == 0) {
+        items = items.filter {
+            it.title.contains(filterText)
+        }
+
+        items = if (sortParam.field == 0) {
             if (sortParam.order == 0) {
                 items.sortedBy { it.id }
             } else {
@@ -62,9 +66,9 @@ class MainViewModel @Inject constructor(
             } else {
                 items.sortedBy { it.title }.reversed()
             }
-        }.filter {
-            it.title.contains(filterText)
         }
+
+        items
     }.asLiveData()
 
     /**
